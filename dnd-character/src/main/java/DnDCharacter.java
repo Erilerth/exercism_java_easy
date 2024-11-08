@@ -1,44 +1,92 @@
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+import java.lang.Math;
+
 
 class DnDCharacter {
+    private final int strenght;
+    private final int dexterity;
+    private final int intelligence;
+    private final int wisdom;
+    private final int charisma;
+    private final int constitution;
 
-    int ability(List<Integer> scores) {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+    public DnDCharacter (){
+        this.strenght = diceMethod();
+        this.dexterity = diceMethod();
+        this.intelligence = diceMethod();
+        this.wisdom = diceMethod();
+        this.charisma = diceMethod();
+        this.constitution = diceMethod();
     }
 
+    int ability(List<Integer> scores) {
+        List<Integer> copy = new ArrayList<>(scores);
+
+        int sum = 0;
+        int lowest = 7;
+        int index = -1;
+        for(int i = 0; i < copy.size(); i++){
+            if(copy.get(i) < lowest){
+                lowest = copy.get(i);
+                index = i;
+            }
+        }
+        copy.remove(index);
+        for (Integer integer : copy) {
+            sum += integer;
+        }
+        return sum;
+    }
+    public int diceMethod(){
+        return ability(rollDice());
+    }
     List<Integer> rollDice() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        List<Integer> diceThrows = new ArrayList<>();
+        Random randomGenerator=new Random();
+        for (int i = 0; i < 4; i++) {
+            diceThrows.add(randomGenerator.nextInt(6) + 1);
+        }
+        return diceThrows;
     }
 
     int modifier(int input) {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        double num =  ((input - 10) /2.0);
+        if(num < 0){
+            num = -1 * num;
+            return  - 1 * (int)Math.ceil(num);
+        }else{
+            return (int)num;
+        }
     }
 
     int getStrength() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return strenght;
     }
 
     int getDexterity() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return dexterity;
     }
 
     int getConstitution() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return constitution ;
     }
 
     int getIntelligence() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return intelligence ;
     }
 
     int getWisdom() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return wisdom;
     }
 
     int getCharisma() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+        return charisma;
     }
 
     int getHitpoints() {
-        throw new UnsupportedOperationException("Delete this statement and write your own implementation.");
+
+        return 10 + modifier(constitution);
     }
 }
